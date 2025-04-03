@@ -1,0 +1,6 @@
+@MunicipalityTaxesAPI_HostAddress = http://localhost:5038
+
+GET {{MunicipalityTaxesAPI_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
