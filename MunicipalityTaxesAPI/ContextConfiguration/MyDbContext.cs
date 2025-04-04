@@ -9,7 +9,6 @@ namespace MunicipalityTaxesAPI.ContextConfiguration
         {  
         }
 
-        public virtual DbSet<MunicipalityEntity> Municipalities { get; set; }
         public virtual DbSet<TaxEntity> Taxes { get; set; }
         public virtual DbSet<TaxScheduleEntity> TaxScheduleEntity { get; set; }
 
@@ -17,7 +16,6 @@ namespace MunicipalityTaxesAPI.ContextConfiguration
         {
             base.OnModelCreating(builder);
 
-            builder.ApplyConfiguration(new MunicipalityEntityConfiguration());
             builder.ApplyConfiguration(new TaxEntityConfiguration());
             builder.ApplyConfiguration(new TaxScheduleEntityConfiguration());
         }
