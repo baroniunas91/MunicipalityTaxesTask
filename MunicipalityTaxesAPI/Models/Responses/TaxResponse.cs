@@ -6,7 +6,7 @@ namespace MunicipalityTaxesAPI.Models.Responses
     {
         public int Id { get; set; }
         public string Municipality { get; set; }
-        public TaxType Type { get; set; }
+        public string Type { get; set; }
         public double TaxRate { get; set; }
         public TaxScheduleResponse TaxSchedule { get; set; }
     }

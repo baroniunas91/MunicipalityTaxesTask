@@ -19,9 +19,18 @@ namespace MunicipalityTaxesAPI.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> Get([FromQuery] TaxGetRequest request, CancellationToken ct)
+        public async Task<IActionResult> GetAll([FromQuery] TaxGetRequest request, CancellationToken ct)
         {
-            var result = await _taxService.GetTaxes(request, ct);
+            var result = await _taxService.GetAllTaxesAsync(request, ct);
+            
+            return Ok(result);
+        }
+
+        [HttpGet("single")]
+        public async Task<IActionResult> GetSingleByQueryParams([FromQuery] TaxGetRequest request, CancellationToken ct)
+        {
+            var result = await _taxService.GetByMunicipalityAndDateAsync(request, ct);
+
             return Ok(result);
         }
 

@@ -30,11 +30,11 @@ namespace MunicipalityTaxesAPI.Extensions
                 .AsImplementedInterfaces()
                 .WithScopedLifetime());
 
-            //services.Scan(scan => scan
-            //    .FromAssembliesOf(typeof(IEntityFilter<>))
-            //    .AddClasses(c => c.AssignableTo(typeof(IEntityFilter<>)))
-            //    .AsSelfWithInterfaces()
-            //    .WithScopedLifetime());
+            services.Scan(scan => scan
+                .FromAssembliesOf(typeof(IEntityFilter<>))
+                .AddClasses(c => c.AssignableTo(typeof(IEntityFilter<>)))
+                .AsSelfWithInterfaces()
+                .WithScopedLifetime());
         }
 
         public static void AddValidators(this IServiceCollection services)

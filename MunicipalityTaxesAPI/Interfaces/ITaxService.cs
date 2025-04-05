@@ -5,7 +5,8 @@ namespace MunicipalityTaxesAPI.Interfaces
 {
     public interface ITaxService
     {
-        Task<TaxResponse> GetTaxes(TaxGetRequest taxGetRequest, CancellationToken ct);
+        Task<IEnumerable<TaxResponse>> GetAllTaxesAsync(TaxGetRequest taxGetRequest, CancellationToken ct);
         Task<TaxResponse> CreateTaxAsync(TaxCreateRequest taxCreateRequest, CancellationToken ct);
+        Task<TaxByMunicipalityandDateResponse> GetByMunicipalityAndDateAsync(TaxGetRequest taxGetRequest, CancellationToken ct);
     }
 }
