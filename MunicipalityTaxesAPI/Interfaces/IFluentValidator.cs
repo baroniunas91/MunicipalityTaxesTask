@@ -1,6 +1,6 @@
 ﻿namespace MunicipalityTaxesAPI.Interfaces
 {
-    public interface IEntity
+    public interface IFluentValidator
     {
     }
 }

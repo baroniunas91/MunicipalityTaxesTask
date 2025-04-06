@@ -1,4 +1,4 @@
-﻿using System.Data;
+﻿using MunicipalityTaxesAPI.Exceptions;
 using System.Net;
 using System.Reflection;
 using System.Runtime.Serialization;
@@ -50,9 +50,7 @@ namespace MunicipalityTaxesAPI.Extensions
                 }
             }
 
-            throw new Exception();
-
-            //throw new HttpStatusException(HttpStatusCode.BadRequest, $"Parameter {description} out of range");
+            throw new HttpStatusException(HttpStatusCode.BadRequest, $"Parameter {description} out of range");
         }
     }
 }

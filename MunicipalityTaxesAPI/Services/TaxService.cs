@@ -41,6 +41,11 @@ namespace MunicipalityTaxesAPI.Services
 
         public async Task<TaxByMunicipalityandDateResponse> GetByMunicipalityAndDateAsync(TaxGetRequest taxGetRequest, CancellationToken ct)
         {
+            if (taxGetRequest.Municipality == null || taxGetRequest.Date == null)
+            {
+                throw new HttpStatusException(HttpStatusCode.BadRequest, "Municipality and date query params are required");
+            }
+
             var taxes = await _taxRepository.GetAllAsync(taxGetRequest, ct);
 
             var highestPriorityTax = taxes.OrderBy(x => x.Type).FirstOrDefault();
@@ -53,15 +58,39 @@ namespace MunicipalityTaxesAPI.Services
             throw new HttpStatusException(HttpStatusCode.NotFound, "Tax not found");
         }
 
-        private static void CalculateTaxSchedulePeriodEndDate(TaxEntity newTax)
+        public async Task<TaxResponse> UpdateTaxAsync(int taxId, TaxUpdateRequest taxUpdateRequest, CancellationToken ct)
         {
-            newTax.TaxSchedule.PeriodEnd = newTax.Type switch
+            var tax = await _taxRepository.FindSingleAsync(x => x.Id == taxId, ct);
+            
+            if (tax == null)
             {
-                TaxType.Daily => newTax.TaxSchedule.PeriodStart.AddDays(1),
-                TaxType.Weekly => newTax.TaxSchedule.PeriodStart.AddDays(7),
-                TaxType.Monthly => newTax.TaxSchedule.PeriodStart.AddMonths(1),
-                TaxType.Yearly => newTax.TaxSchedule.PeriodStart.AddYears(1),
-                _ => throw new ArgumentOutOfRangeException(nameof(newTax.Type), newTax.Type, null),
+                throw new HttpStatusException(HttpStatusCode.NotFound, "Tax not found");
+            }
+
+            _mapper.Map(taxUpdateRequest, tax);
+
+
+            if (taxUpdateRequest.Type != null || taxUpdateRequest.TaxSchedule?.PeriodStart != null)
+            {
+                CalculateTaxSchedulePeriodEndDate(tax);
+            }
+
+            _taxRepository.Update(tax);
+            
+            await _taxRepository.SaveChangesAsync(ct);
+
+            return _mapper.Map<TaxResponse>(tax);
+        }
+
+        private static void CalculateTaxSchedulePeriodEndDate(TaxEntity tax)
+        {
+            tax.TaxSchedule.PeriodEnd = tax.Type switch
+            {
+                TaxType.Daily => tax.TaxSchedule.PeriodStart.AddDays(1),
+                TaxType.Weekly => tax.TaxSchedule.PeriodStart.AddDays(7),
+                TaxType.Monthly => tax.TaxSchedule.PeriodStart.AddMonths(1),
+                TaxType.Yearly => tax.TaxSchedule.PeriodStart.AddYears(1),
+                _ => throw new ArgumentOutOfRangeException(nameof(tax.Type), tax.Type, null),
             };
         }
     }

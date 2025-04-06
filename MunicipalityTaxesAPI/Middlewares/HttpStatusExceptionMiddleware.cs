@@ -1,5 +1,5 @@
 ﻿using MunicipalityTaxesAPI.Exceptions;
-using MunicipalityTaxesAPI.Models.Responses;
+using MunicipalityTaxesAPI.Models;
 
 namespace MunicipalityTaxesAPI.Middlewares
 {

@@ -1,6 +1,4 @@
-﻿using MunicipalityTaxesAPI.Entities;
-
-namespace MunicipalityTaxesAPI.Interfaces
+﻿namespace MunicipalityTaxesAPI.Interfaces
 {
     // <summary>
     ///     Interface to control Entity filters and relations
@@ -9,6 +7,5 @@ namespace MunicipalityTaxesAPI.Interfaces
     {
         IQueryable<TEntity> ApplyRelations(IQueryable<TEntity> queryable);
         IQueryable<TEntity> ApplyFilter(IQueryable<TEntity> queryable, IBaseGetRequest request);
-        IQueryable<TEntity> ApplyOrdering(IQueryable<TEntity> queryable);
     }
 }

@@ -31,10 +31,5 @@ namespace MunicipalityTaxesAPI.Filters
         {
             return queryable.Include(x => x.TaxSchedule);
         }
-
-        public IQueryable<TaxEntity> ApplyOrdering(IQueryable<TaxEntity> queryable)
-        {
-            return queryable.OrderBy(x => x.Type);
-        }
     }
 }

@@ -8,5 +8,6 @@ namespace MunicipalityTaxesAPI.Interfaces
         Task<IEnumerable<TaxResponse>> GetAllTaxesAsync(TaxGetRequest taxGetRequest, CancellationToken ct);
         Task<TaxResponse> CreateTaxAsync(TaxCreateRequest taxCreateRequest, CancellationToken ct);
         Task<TaxByMunicipalityandDateResponse> GetByMunicipalityAndDateAsync(TaxGetRequest taxGetRequest, CancellationToken ct);
+        Task<TaxResponse> UpdateTaxAsync(int taxId, TaxUpdateRequest taxUpdateRequest, CancellationToken ct);
     }
 }

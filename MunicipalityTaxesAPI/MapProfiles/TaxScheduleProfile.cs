@@ -11,6 +11,11 @@ namespace MunicipalityTaxesAPI.MapProfiles
         {
             CreateMap<TaxScheduleCreateRequest, TaxScheduleEntity>();
             CreateMap<TaxScheduleEntity, TaxScheduleResponse>();
+            CreateMap<TaxScheduleUpdateRequest, TaxScheduleEntity>()
+                .ForMember(x => x.PeriodStart, opt =>
+                {
+                    opt.Condition(e => e.PeriodStart != null);
+                });
         }
     }
 }

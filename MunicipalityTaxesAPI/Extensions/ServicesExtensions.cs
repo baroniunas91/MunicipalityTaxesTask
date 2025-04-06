@@ -35,13 +35,12 @@ namespace MunicipalityTaxesAPI.Extensions
                 .AddClasses(c => c.AssignableTo(typeof(IEntityFilter<>)))
                 .AsSelfWithInterfaces()
                 .WithScopedLifetime());
-        }
 
-        public static void AddValidators(this IServiceCollection services)
-        {
-            //services.AddScoped<IValidator<ExerciseCreateRequest>, ExerciseCreateValidator>();
-            //services.AddScoped<IValidator<WorkoutCreateRequest>, WorkoutCreateValidator>();
-            //services.AddScoped<IValidator<WorkoutUpdateRequest>, WorkoutUpdateValidator>();
+            services.Scan(scan => scan
+                .FromAssembliesOf(typeof(IFluentValidator))
+                .AddClasses(classes => classes.AssignableTo<IFluentValidator>())
+                .AsSelf()
+                .WithTransientLifetime());
         }
 
         public static void ConfigureNewtonsoftJson(this IMvcBuilder builder)

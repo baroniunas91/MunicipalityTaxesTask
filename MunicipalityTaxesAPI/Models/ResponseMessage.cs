@@ -1,6 +1,6 @@
 ﻿using System.Text.Json.Serialization;
 
-namespace MunicipalityTaxesAPI.Models.Responses
+namespace MunicipalityTaxesAPI.Models
 {
     public class ResponseMessage
     {

@@ -19,10 +19,9 @@ namespace MunicipalityTaxesAPI.Services
         {
             _dbContext.Database.Migrate();
             
-            // Check if data already exists to prevent duplicate seeding
             if (_dbContext.Taxes.Any())
             {
-                return; // Database has been seeded
+                return;
             }
 
             var yearlyPeriodStart = new DateTime(2024, 1, 1);

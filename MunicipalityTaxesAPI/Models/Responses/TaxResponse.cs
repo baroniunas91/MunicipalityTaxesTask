@@ -1,6 +1,4 @@
-﻿using MunicipalityTaxesAPI.Enums;
-
-namespace MunicipalityTaxesAPI.Models.Responses
+﻿namespace MunicipalityTaxesAPI.Models.Responses
 {
     public class TaxResponse
     {

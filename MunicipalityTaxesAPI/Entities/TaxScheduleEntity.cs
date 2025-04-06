@@ -9,6 +9,5 @@ namespace MunicipalityTaxesAPI.Entities
         public DateTime PeriodEnd { get; set; }
         public TaxEntity Tax { get; set; }
         public int TaxId { get; set; }
-
     }
 }

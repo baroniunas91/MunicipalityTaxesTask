@@ -21,6 +21,7 @@ namespace MunicipalityTaxesAPI.Repositories
             var query = _context.Set<TEntity>().AsQueryable();
             query = _entityFilter.ApplyRelations(query);
             query = _entityFilter.ApplyFilter(query, baseGetRequest);
+            
             return await query.ToListAsync(ct);
         }
 
@@ -29,11 +30,25 @@ namespace MunicipalityTaxesAPI.Repositories
             await _context.Set<TEntity>().AddAsync(entity, ct);
         }
 
+        public void Update(TEntity entity)
+        {
+            _context.Set<TEntity>().Update(entity);
+        }
+
         public async Task<IEnumerable<TEntity>> FindAsync(Expression<Func<TEntity, bool>> expression, CancellationToken ct)
         {
             var query = _context.Set<TEntity>().AsQueryable();
             query = _entityFilter.ApplyRelations(query);
+            
             return await query.Where(expression).ToListAsync(ct);
+        }
+
+        public async Task<TEntity> FindSingleAsync(Expression<Func<TEntity, bool>> expression, CancellationToken ct)
+        {
+            var query = _context.Set<TEntity>().AsQueryable();
+            query = _entityFilter.ApplyRelations(query);
+            
+            return await query.Where(expression).FirstOrDefaultAsync(ct);
         }
 
         public async Task SaveChangesAsync(CancellationToken ct)
