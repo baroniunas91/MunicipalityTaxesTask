@@ -1,0 +1,112 @@
+{
+	"info": {
+		"_postman_id": "68bf3b36-fc7d-46df-81b6-bc871114ca3c",
+		"name": "MunicipalityTaxesApi",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "13611413"
+	},
+	"item": [
+		{
+			"name": "taxes",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/taxes",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"taxes"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "taxes/single",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/taxes/single?municipality=Copenhagen&date=2024-07-10",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"taxes",
+						"single"
+					],
+					"query": [
+						{
+							"key": "municipality",
+							"value": "Copenhagen"
+						},
+						{
+							"key": "date",
+							"value": "2024-07-10"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "workouts/{id}",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"Municipality\": \"Vilniaus\",\r\n    \"Type\": \"weekly\",\r\n    \"TaxRate\": 0.35,\r\n    \"TaxSchedule\": {\r\n         \"PeriodStart\": \"2025-02-01\"\r\n    }\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/taxes/1",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"taxes",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "taxes",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"Municipality\": \"Vilniaus\",\r\n    \"Type\": \"weekly\",\r\n    \"TaxRate\": 0.36,\r\n    \"TaxSchedule\":{\r\n        \"PeriodStart\": \"2025-08-01\"\r\n    }\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/taxes",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"taxes"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
