@@ -1,0 +1,35 @@
+version: '3.8'
+
+services:
+  api:
+    build:
+      context: ./MunicipalityTaxesAPI  # Adjust to your API project folder
+      dockerfile: Dockerfile
+    container_name: municipality-taxes-api
+    ports:
+      - "8080:8080"  # Host:Container, adjust as needed
+    depends_on:
+      sqlserver:
+        condition: service_healthy
+    environment:
+      - ConnectionStrings__Default=Server=sqlserver,1433;Database=MunicipalityTaxesDb;User Id=sa;Password=zkmEZ5H61J/N;TrustServerCertificate=True;
+
+  sqlserver:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    container_name: sqlserver
+    ports:
+      - "1433:1433"
+    environment:
+      SA_PASSWORD: "zkmEZ5H61J/N"
+      ACCEPT_EULA: "Y"
+    volumes:
+      - sql_data:/var/opt/mssql
+    healthcheck:
+      test: /opt/mssql-tools18/bin/sqlcmd -S localhost -C -U sa -P "zkmEZ5H61J/N" -Q "SELECT 1" -b -o /dev/null
+      start_period: 10s
+      timeout: 2s
+      interval: 30s
+      retries: 3
+
+volumes:
+  sql_data:
