@@ -20,6 +20,7 @@ namespace MunicipalityTaxesAPI.Extensions
         public static void AddServices(this IServiceCollection services)
         {
             services.AddTransient<ITaxService, TaxService>();
+            services.AddTransient<IDbInitializer, DbInitializer>();
         }
 
         public static void AddServicesFromAssemblies(this IServiceCollection services)

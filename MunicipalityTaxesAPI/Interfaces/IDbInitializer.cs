@@ -2,6 +2,7 @@
 {
     public interface IDbInitializer
     {
-        void Initialize();
+        void InitializeDatabase();
+        void SeedDatabase();
     }
 }

@@ -37,7 +37,7 @@ namespace MunicipalityTaxesAPI.Controllers
         [HttpPost]
         public async Task<IActionResult> CreateTax([FromBody] TaxCreateRequest taxCreateRequest, [FromServices] TaxCreateRequestValidator validator, CancellationToken ct)
         {
-            var validationResult = await validator.ValidateAsync(taxCreateRequest);
+            var validationResult = await validator.ValidateAsync(taxCreateRequest, ct);
             if (!validationResult.IsValid)
             {
                 return BadRequest(new ValidationErrorResponse(validationResult.Errors));
@@ -51,7 +51,7 @@ namespace MunicipalityTaxesAPI.Controllers
         [HttpPatch("{taxId}")]
         public async Task<IActionResult> UpdateTax(int taxId, [FromBody] TaxUpdateRequest taxUpdateRequest, [FromServices] TaxUpdateRequestValidator validator, CancellationToken ct)
         {
-            var validationResult = await validator.ValidateAsync(taxUpdateRequest);
+            var validationResult = await validator.ValidateAsync(taxUpdateRequest, ct);
             if (!validationResult.IsValid)
             {
                 return BadRequest(new ValidationErrorResponse(validationResult.Errors));

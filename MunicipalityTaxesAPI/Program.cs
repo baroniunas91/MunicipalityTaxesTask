@@ -22,7 +22,7 @@ namespace MunicipalityTaxesAPI
             builder.Services.AddDatabase(builder.Configuration);
             builder.Services.AddServices();
             builder.Services.AddServicesFromAssemblies();
-            builder.Services.AddAutoMapper(Assembly.GetEntryAssembly());
+            builder.Services.AddAutoMapper(typeof(Program).Assembly);
 
             var app = builder.Build();
 

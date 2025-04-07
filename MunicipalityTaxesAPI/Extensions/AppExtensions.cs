@@ -10,7 +10,7 @@ namespace MunicipalityTaxesAPI.Extensions
             using var scope = app.Services.CreateScope();
             var services = scope.ServiceProvider;
             var dbInitializer = services.GetRequiredService<IDbInitializer>();
-            dbInitializer.Initialize();
+            dbInitializer.InitializeDatabase();
         }
     }
 }

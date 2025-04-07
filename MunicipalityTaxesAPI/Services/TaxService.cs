@@ -30,8 +30,8 @@ namespace MunicipalityTaxesAPI.Services
         public async Task<TaxResponse> CreateTaxAsync(TaxCreateRequest taxCreateRequest, CancellationToken ct)
         {
             var newTax = _mapper.Map<TaxEntity>(taxCreateRequest);
-            
-            CalculateTaxSchedulePeriodEndDate(newTax);
+
+            newTax.TaxSchedule.PeriodEnd = GetTaxSchedulePeriodEndDate(newTax.Type, newTax.TaxSchedule.PeriodStart);
 
             await _taxRepository.AddAsync(newTax, ct);
             await _taxRepository.SaveChangesAsync(ct);
@@ -48,6 +48,7 @@ namespace MunicipalityTaxesAPI.Services
 
             var taxes = await _taxRepository.GetAllAsync(taxGetRequest, ct);
 
+            // Assume that highest tax priority is daily tax. Priority order described in TaxType Enum.
             var highestPriorityTax = taxes.OrderBy(x => x.Type).FirstOrDefault();
 
             if (highestPriorityTax != null)
@@ -72,7 +73,7 @@ namespace MunicipalityTaxesAPI.Services
 
             if (taxUpdateRequest.Type != null || taxUpdateRequest.TaxSchedule?.PeriodStart != null)
             {
-                CalculateTaxSchedulePeriodEndDate(tax);
+                tax.TaxSchedule.PeriodEnd = GetTaxSchedulePeriodEndDate(tax.Type, tax.TaxSchedule.PeriodStart);
             }
 
             _taxRepository.Update(tax);
@@ -82,16 +83,27 @@ namespace MunicipalityTaxesAPI.Services
             return _mapper.Map<TaxResponse>(tax);
         }
 
-        private static void CalculateTaxSchedulePeriodEndDate(TaxEntity tax)
+
+        /// <summary>
+        /// Get tax schedule period end date. Note: period end date calculated up to next day. 
+        /// For example: Period Start 2024-01-01 00:00:00AM Period End 2024-01-02 00:00:00AM. It means that 02 day tax is not applied, tax applied only 01 day.
+        /// </summary>
+        /// <param name="type">type</param>
+        /// <param name="periodStart">periodStart</param>
+        /// <returns></returns>
+        /// <exception cref="ArgumentOutOfRangeException"></exception>
+        public DateTime GetTaxSchedulePeriodEndDate(TaxType type, DateTime periodStart)
         {
-            tax.TaxSchedule.PeriodEnd = tax.Type switch
+            var periodEnd = type switch
             {
-                TaxType.Daily => tax.TaxSchedule.PeriodStart.AddDays(1),
-                TaxType.Weekly => tax.TaxSchedule.PeriodStart.AddDays(7),
-                TaxType.Monthly => tax.TaxSchedule.PeriodStart.AddMonths(1),
-                TaxType.Yearly => tax.TaxSchedule.PeriodStart.AddYears(1),
-                _ => throw new ArgumentOutOfRangeException(nameof(tax.Type), tax.Type, null),
+                TaxType.Daily => periodStart.AddDays(1),
+                TaxType.Weekly => periodStart.AddDays(7),
+                TaxType.Monthly => periodStart.AddMonths(1),
+                TaxType.Yearly => periodStart.AddYears(1),
+                _ => throw new ArgumentOutOfRangeException(nameof(type), type, null),
             };
+
+            return periodEnd;
         }
     }
 }

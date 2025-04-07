@@ -7,7 +7,6 @@ namespace MunicipalityTaxesAPI.Services
 {
     public class DbInitializer : IDbInitializer
     {
-        private readonly IServiceScopeFactory _scopeFactory;
         private readonly MyDbContext _dbContext;
 
         public DbInitializer(MyDbContext dbContext)
@@ -15,10 +14,18 @@ namespace MunicipalityTaxesAPI.Services
             _dbContext = dbContext;
         }
 
-        public void Initialize()
+        public void InitializeDatabase()
         {
-            _dbContext.Database.Migrate();
-            
+            if (_dbContext.Database.ProviderName != "Microsoft.EntityFrameworkCore.InMemory")
+            {
+                _dbContext.Database.Migrate();
+            }
+
+            SeedDatabase();
+        }
+
+        public void SeedDatabase()
+        {
             if (_dbContext.Taxes.Any())
             {
                 return;

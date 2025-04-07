@@ -31,8 +31,8 @@ namespace MunicipalityTaxesAPI.Extensions
         /// <summary>
         ///     Returns <see cref="Enum"/> value by <see cref="EnumMemberAttribute"/> value
         /// </summary>
-        /// <param name="description"><see cref="EnumMemberAttribute"/> value</param>
-        /// <returns>Value if successfully parsed, null otherwise</returns>
+        /// <param name="description"><see cref="EnumMemberAttribute"/>value</param>
+        /// <returns>Value if successfully parsed</returns>
         /// <exception cref="ArgumentOutOfRangeException">Throws when value cannot be parsed</exception>
         public static T ParseByAttribute<T>(string description) where T : Enum
         {
